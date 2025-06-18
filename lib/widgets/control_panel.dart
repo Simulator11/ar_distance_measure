@@ -1,12 +1,18 @@
-// File: lib/widgets/control_panel.dart
-
 import 'package:flutter/material.dart';
 import '../services/ar_measure_service.dart';
 
 class ControlPanel extends StatelessWidget {
   final ARMeasureService service;
+  final VoidCallback onScreenshot;
+  final ValueChanged<bool> onTtsToggle;
+  final bool ttsEnabled;
 
-  const ControlPanel({required this.service});
+  const ControlPanel({
+    required this.service,
+    required this.onScreenshot,
+    required this.onTtsToggle,
+    required this.ttsEnabled,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +36,12 @@ class ControlPanel extends StatelessWidget {
                 label: const Text("Reset"),
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
               ),
+              IconButton(
+                onPressed: onScreenshot,
+                icon: Icon(Icons.camera_alt, size: 30),
+                color: Colors.deepPurple,
+                tooltip: "Save Screenshot",
+              ),
             ],
           ),
           const SizedBox(height: 10),
@@ -39,6 +51,12 @@ class ControlPanel extends StatelessWidget {
               _unitButton("m", UnitSystem.meters),
               _unitButton("cm", UnitSystem.centimeters),
               _unitButton("in", UnitSystem.inches),
+              Switch(
+                value: ttsEnabled,
+                onChanged: onTtsToggle,
+                activeColor: Colors.deepPurple,
+              ),
+              Text("TTS", style: TextStyle(fontWeight: FontWeight.bold)),
             ],
           ),
         ],
